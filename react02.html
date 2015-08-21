@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Learning REACT 02</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <style>
+      .inputStyle{
+        border: 1px solid #b3b3b3;
+        width: 460px;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RECAP</h1>
+    <p>Below are couple things from what I learned so far<p>
+    <ul>
+      <li>First Component</li>
+      <li>Second Component</li>
+      <li>Property</li>
+      <li>Children</li>
+      <li>Event</li>
+      <li>Object</li>
+    </ul>
+    <hr/>
+    <div id="start-react"></div>
+
+    <script type="text/jsx">
+      var defaultImage = {image: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Llama_front.jpg", name: "Llama"};
+
+      var FirstComponent = React.createClass({
+
+        handleChange: function(){
+          this.setState({
+            aImg: event.target.value
+          });        
+        },
+
+        getInitialState: function(){
+          return{
+            count: 0,
+            aImg: defaultImage.image
+          }
+        },
+
+        increaseCount: function(){
+          this.setState({
+            count: this.state.count + 1
+          });       
+        },
+
+        resetCount: function(){
+          this.setState({
+            count: this.state.count - this.state.count
+          });        
+        },
+        
+        render: function(){
+          return(
+            <div className="content-wrapper">
+              <h1>This is the {this.props.name}</h1>
+              <p>{this.props.children}</p>
+              <h2>Lets do basic count from: {this.state.count}</h2>
+              <button onClick={this.increaseCount}>Increase Count</button>
+              <button onClick={this.resetCount}>Reset Count</button>
+              <p>&nbsp;</p>
+              <img src={this.state.aImg} width="500"/>
+              <h4>Put any image link address below to change the Llama picture</h4>
+              <input type="text" className="inputStyle" value={this.state.aImg} onChange={this.handleChange />
+              <SecondProperty/>
+              <hr/>
+            </div>
+          );
+        }
+      });
+
+      var SecondProperty = React.createClass({
+        render: function(){
+          return(
+            <div className="second-component-wrapper">
+              <h1>This is the Second component</h1> 
+            </div>
+          );
+        }
+      });
+
+      React.render(
+        <FirstComponent name='First Component'>This is the children of FirstComponent</FirstComponent>, document.getElementById('start-react')
+      );
+    </script>
+  </body>
+</html>

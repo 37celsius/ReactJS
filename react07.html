@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Learning REACT 07</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+      .llamaStyle {
+        padding: 10px;
+        width: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RECAP Person APP, and everything that I know so far</h1>
+    <ul>
+      <li>Props</li>
+      <li>Second Component</li>
+      <li>Prop types</li>
+      <li>Default Prop</li>
+      <li>Increment count</li>
+      <li>Minus words with character</li>
+      <li>Disable button status</li>
+      <li>Live update image url</li>
+      <li>Person App</li>
+    </ul>
+    <hr/>
+    <div id="start-react"></div>
+
+    <script type="text/jsx">
+      var FirstComponent = React.createClass({
+
+        getDefaultProps: function(){
+          return{
+            xState: 'variable x that have Prop Default, and also have the type of string'
+          }
+        },
+
+        propTypes: {
+          x: React.PropTypes.string
+        },
+        
+        render: function(){
+          
+          var x = this.props.xState;  
+
+          return(
+            <div className='component-class' >
+              <h1>Hello World, this is a {this.props.name}</h1>
+              <SecondComponent/>
+              <hr/>
+              <h1>This state is grab from {x}</h1>
+            </div>
+          );
+        }
+      });
+
+      var SecondComponent = React.createClass({
+        render: function(){
+          return(
+            <h2>I am Second Component</h2>
+          );
+        }
+      });
+
+      var CountComponent = React.createClass({
+        
+        getInitialState: function(){
+          return{
+            count: 0,
+            m: ''
+          }
+        },
+
+        addCount: function(){
+          this.setState({
+            count: this.state.count + 1
+          });
+        },
+
+        resetCount: function(){
+          this.setState({
+            count: this.state.count - this.state.count
+          });
+        },
+
+        handleChange: function(){
+          this.setState({
+            m: event.target.value
+          });
+        },
+
+        render: function(){
+          return(
+            <div className='component-class'>
+              <h3>Start count {this.state.count}</h3>
+              <button onClick={this.addCount}>Add 1</button>
+              <button onClick={this.resetCount}>Reset Count</button>
+              <hr/>
+              <input type='text' onChange={this.handleChange}/>
+              <h2>{140 - this.state.m.length}</h2>
+              <button disabled={this.state.m.length === 0}>Useless Button</button>
+            </div>
+          );
+        }
+      });
+
+      var Llama = {image:'http://www.biznews.com/wp-content/uploads/2015/02/llama1.jpg', name:'Llama'};
+      
+      var LiveImageComponent = React.createClass({
+        
+        getInitialState: function(){
+          return{
+            defaultIMG: Llama.image
+          }
+        },
+
+        llamaChange: function(){
+          this.setState({
+            defaultIMG: event.target.value
+          });
+        },
+
+        render: function(){
+          return(
+            <div className='component-class'>
+              <input type='text' value={this.state.defaultIMG} onChange={this.llamaChange}/>
+              <p>&nbsp;</p>
+              <img src={this.state.defaultIMG} width='300px'/>
+            </div>
+          );
+        }
+      });
+
+      var PersonApp = React.createClass({
+        getInitialState: function(){
+          return{
+            data: [],
+            first: '',
+            last: ''
+          }
+        },
+
+        onChangeFirst: function(e){
+          this.setState({
+            first: e.target.value
+          });
+        },
+
+        onChangeLast: function(e){
+          this.setState({
+            last: e.target.value
+          });        
+        },
+
+        nameSubmit: function(e){
+          e.preventDefault();
+          this.state.data.push({
+            first: this.state.first,
+            last: this.state.last
+          });
+          this.setState({
+            first: '',
+            last: ''
+          });
+        },
+
+        render: function(){
+          return(
+            <div className='component-class'>
+              <form onSubmit={this.nameSubmit}>
+                <input type='text' placeholder='First Name' onChange={this.onChangeFirst}/>
+                <input type='text' placeholder='Last Name' onChange={this.onChangeLast}/>
+                <button>Add Person</button><button onClick={this.resetData}>Reset</button>
+              </form>
+              <PersonList dataName={this.state.data}/>
+            </div>
+          );
+        }
+      });
+
+      var Person = React.createClass({
+        render: function(){
+          return(
+            <span>
+              <p><strong>First Name:</strong> {this.props.first}, <strong>Last Name:</strong> {this.props.last}</p>
+            </span>
+          );
+        }
+      });
+
+      var PersonList = React.createClass({
+        render: function(){
+          var people = this.props.dataName.map(function(personName){
+            return <Person first={personName.first} last={personName.last}/>
+          });
+
+          return(
+            <span>
+              {people}
+            </span>
+          );
+        }
+      });
+
+      React.render(
+        <section>
+          <FirstComponent name='React Experiment number 7'/>
+          <hr/>
+          <CountComponent/>
+          <hr/>
+          <LiveImageComponent/>
+          <hr/>
+          <PersonApp/>
+          <p>&nbsp;</p>  
+        </section>, 
+        document.getElementById('start-react')
+      );
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

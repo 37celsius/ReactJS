@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Learning REACT 03</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>Components</h1>
+    <p>Lets go nuts with Components<p>
+    <hr/>
+    <div id="start-react"></div>
+
+    <script type="text/jsx">
+      var data =[
+        {first: 'Bruce', last: 'Wayne'},
+        {first: 'Clark', last: 'Kent'},
+        {first: 'Barry', last: 'Allen'}
+      ];
+
+      var PersonApp = React.createClass({
+        render: function(){
+          return(
+            <div className='react-wrapper'>
+              <h1>Name of the App is {this.props.personAppName}</h1>
+              <PersonList dataNameApp={this.props.dataName}/>
+            </div>
+          );
+        }
+      });
+
+      var Person = React.createClass({
+        render: function(){
+          return(
+            <div>
+              {this.props.first} {this.props.last}
+            </div>
+          );
+        }
+      });
+
+      var PersonList = React.createClass({
+        render: function(){
+          var people = this.props.dataNameApp.map(function(personName){
+            return <Person first={personName.first} last={personName.last}/>
+          });
+
+          return(
+            <div>
+              {people}
+            </div>
+          );
+        }
+      });
+
+      React.render(
+        <PersonApp dataName={data} personAppName='Llama'/>, document.getElementById('start-react')
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Learning REACT 06</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+      .llamaStyle {
+        padding: 10px;
+        width: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RECAP Person APP</h1>
+    <p>LIVE data object insert to component<p>
+    <hr/>
+    <div id="start-react"></div>
+
+    <script type="text/jsx">
+
+      var Llama = {image: 'http://www.biznews.com/wp-content/uploads/2015/02/llama1.jpg', name: 'Lllama'};
+
+      var PersonApp = React.createClass({
+
+        getInitialState: function(){
+          return{
+            dataPerson: [],
+            first: '',
+            last: '',
+            imgDefault: Llama.image,
+            count: 0
+          }
+        },
+
+        onChangeFirst: function(e){
+          this.setState({
+            first: e.target.value
+          });
+        },
+        
+        onChangeLast: function(e){
+          this.setState({
+            last: e.target.value
+          });
+        },
+
+        handleSubmit: function(e){
+          e.preventDefault();
+          this.state.dataPerson.push({
+            first: this.state.first,
+            last: this.state.last
+          });
+          
+          this.setState({
+            first: '',
+            last: ''
+          });
+
+        },
+
+        handleChange: function(e){
+          this.setState({
+            imgDefault: e.target.value
+          });
+        },
+
+        incrementCount: function(){
+          this.setState({
+            count: this.state.count + 1
+          });
+        },
+
+        render: function(){
+          return(
+            <div>
+              <h1>Title app {this.props.verNum}</h1>
+              <form onSubmit={this.handleSubmit}>
+                <input type='text' onChange={this.onChangeFirst} placeholder='First Name'/>
+                <input type='text' onChange={this.onChangeLast} placeholder='Last Name'/>
+                <button>Add person</button>
+              </form>
+              <PersonList dataName={this.state.dataPerson}/><br/>
+              <input type='text' value={this.state.imgDefault} onChange={this.handleChange}/><br/>
+              <img src={this.state.imgDefault} width='200px'/>
+              <h1>{this.state.count}</h1>
+              <button onClick={this.incrementCount}>Add 1</button>
+            </div>
+          );
+        }      
+      });
+
+      var Person = React.createClass({
+        render: function(){
+          return(
+            <span>
+              <p><strong>First Name:</strong> {this.props.first}, <strong>Last Name:</strong> {this.props.last}</p>
+            </span>
+          );
+        }
+      });
+
+      var PersonList = React.createClass({
+        render: function(){
+          var people = this.props.dataName.map(function(personName){
+            return <Person first={personName.first} last={personName.last}/>
+          });
+
+          return(
+            <span>
+              {people}
+            </span>
+          );
+        }
+      });
+
+      React.render(
+        <PersonApp verNum='0.1.3'/>, document.getElementById('start-react')
+      );
+    </script>
+  </body>
+</html>

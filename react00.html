@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Learning REACT 00 </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <h1>React Multiple Components and Properties</h1>
+
+    <div id="content"></div>
+
+    <script type="text/jsx">
+      var MyComponent = React.createClass({
+        render: function(){
+           return(
+           <h1>Hello {this.props.name}</h1>
+          );
+        }
+      });
+
+      React.render(
+        <section>
+          <MyComponent name='Ham'/>
+          <MyComponent name='Bacon'/>
+          <MyComponent name='Pokeball'/>
+          <MyComponent name='Mac'/>
+        </section>, document.getElementById('content')
+      );
+    </script>
+  </body>
+</html> 

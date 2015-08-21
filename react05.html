@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Learning REACT 05</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+      .llamaStyle {
+        padding: 10px;
+        width: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RECAP Components</h1>
+    <p>Lets do some data object insert to component<p>
+    <hr/>
+    <div id="start-react"></div>
+
+    <script type="text/jsx">
+      var data = [
+        {first: 'Bruce', last: 'Wayne'},
+        {first: 'Clark', last: 'Kent'},
+        {first: 'Barry', last: 'Allen'}
+        ];
+
+      var imageDefault = {image: 'http://www.biznews.com/wp-content/uploads/2015/02/llama1.jpg', name: 'llama'};
+
+      var PersonApp = React.createClass({
+        getInitialState: function(){
+            return {
+              count: 0,
+              imgLlama: imageDefault.image
+            }
+        },
+
+        handleChange: function(){
+          this.setState({
+            imgLlama: event.target.value
+          });        
+        },
+
+        incrementCount: function(){
+          this.setState({
+            count: this.state.count + 1
+          });        
+        },
+        
+        backToZero: function(){
+          this.setState({
+            count: this.state.count - this.state.count
+          });        
+        },
+
+        render: function(){
+          return (
+            <div className='content-wrapper'>
+              <h1>This is a {this.props.name}</h1>
+              <PersonList secondComponent='Second Component' dataNameApp={this.props.dataName}/>
+              <h3>Make it count: {this.state.count}</h3>
+              <button onClick={this.incrementCount}>Add one</button>
+              <button onClick={this.backToZero}>Reset to Zero</button>
+              <hr/>
+              <img src={this.state.imgLlama} width='200px'/> 
+              <br/>
+              <input className='llamaStyle' type='text' value={this.state.imgLlama} onChange={this.handleChange} />
+            </div>
+          );
+        }
+      });
+
+      var Person = React.createClass({
+        render: function(){
+          return(
+            <div>
+              {this.props.first} {this.props.last}
+            </div>
+          );
+        }
+      });
+
+      var PersonList = React.createClass({
+        render: function(){
+          var people = this.props.dataNameApp.map(function(personName){
+            return <Person first={personName.first} last={personName.last}/>
+          });
+
+          return(
+            <span>
+              <hr/>
+                <p>This is {this.props.secondComponent}</p>
+                {people}
+              <hr/>
+            </span>
+          );
+        }     
+      });
+
+      React.render(
+        <PersonApp name='Person List App' dataName={data} />, document.getElementById('start-react') 
+      );  
+    </script>
+  </body>
+</html>
